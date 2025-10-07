@@ -1,0 +1,11 @@
+{
+  "name": "JobApplicationHandlerAPI",
+  "version": "0.1.0",
+  "dependencies": [
+    "fmt",
+    "cpr",
+    "jwt-cpp",
+    "crow.h",
+    "pqxx/pqxx"
+  ]
+}
