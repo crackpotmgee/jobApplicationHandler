@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(JobApplicationHandler CXX)
+project(job-application-handler-api CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -12,11 +12,11 @@ find_package(cpr CONFIG REQUIRED)
 find_package(jwt-cpp CONFIG REQUIRED)
 find_package(libpqxx CONFIG REQUIRED)
 
-add_executable(job_application_handler main.cpp)
+add_executable(job-application-handler-api main.cpp)
 
-target_link_libraries(job_application_handler PRIVATE
-    crow
+target_link_libraries(job-application-handler-api PRIVATE
+    crow::crow
     cpr::cpr
     jwt-cpp::jwt-cpp
-    pqxx
+    pqxx::pqxx
 )

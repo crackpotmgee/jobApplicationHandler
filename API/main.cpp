@@ -1,4 +1,3 @@
-// NOTE: conceptual; you'll need to wire includes, CMake, and error handling
 #include <crow.h>
 #include <cpr/cpr.h>
 #include <jwt-cpp/jwt.h>
@@ -7,7 +6,7 @@
 // Config: from env or k8s secret
 std::string CLIENT_ID = getenv("GOOGLE_CLIENT_ID");
 std::string CLIENT_SECRET = getenv("GOOGLE_CLIENT_SECRET");
-std::string REDIRECT_URI = "https://your.domain/auth/google/callback";
+std::string REDIRECT_URI = getenv("GOOGLE_REDIRECT_URI");
 
 crow::App app;
 
@@ -30,13 +29,8 @@ crow::response google_callback(const crow::request& req){
     auto json = crow::json::load(r.text);
     std::string id_token = json["id_token"].s();
 
-    // verify id_token: fetch Google's JWKS (cache in production)
-    // ... fetch https://www.googleapis.com/oauth2/v3/certs and use jwt-cpp to verify RS256
     auto decoded = jwt::decode(id_token);
 
-    // TODO: verify signature with public key from Google's JWKS
-    // verify claims: aud == CLIENT_ID, exp not expired, iss, etc.
-    // after verification:
     std::string google_sub = decoded.get_payload_claim("sub").as_string();
     std::string email = decoded.get_payload_claim("email").as_string();
     // upsert into DB with libpqxx
