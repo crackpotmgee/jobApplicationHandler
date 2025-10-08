@@ -1,5 +1,4 @@
 CREATE Table token_cache (
-  id SERIAL PRIMARY KEY,
   service_name TEXT NOT NULL,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   access_token TEXT NOT NULL,

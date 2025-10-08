@@ -6,6 +6,6 @@
     "cpr",
     "jwt-cpp",
     "libpqxx",
-    "picojson"
+    "openssl"
   ]
 }
