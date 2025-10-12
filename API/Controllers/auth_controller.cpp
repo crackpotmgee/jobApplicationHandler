@@ -2,7 +2,7 @@
 #include <cpr/cpr.h>
 #include <jwt-cpp/jwt.h>
 #include <pqxx/pqxx>
-static const std::string SCOPES = "openid email profile";
+static const std::string SCOPES = "openid email profile offline_access";
 
 class auth_controller {
 // Config: from env or k8s secret
