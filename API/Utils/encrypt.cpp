@@ -129,35 +129,38 @@ std::string decrypt_string(const std::string& b64_ciphertext) {
     //decode the cypher text
     std::string decoded_cypher = base64_decode(b64_ciphertext_copy);
 
-    const unsigned char* key = reinterpret_cast<const unsigned char*>(key_str.data());
+    size_t total_len = decoded_cypher.size();
 
-    // create new char to store the iv extracted from the ciphertext
-    unsigned char iv[12];
-    size_t len = sizeof(decoded_cypher);
-    // create vector for the data
-    std::vector<unsigned char> uDataVect(decoded_cypher.begin(), decoded_cypher.end()); 
+      // Split into IV, ciphertext, tag
+    const unsigned char* data = reinterpret_cast<const unsigned char*>(decoded_cypher.data());
+    const unsigned char* iv = data;
+    const unsigned char* ciphertext = data + 12;
+    const unsigned char* tag = data + total_len - 16;
+    size_t ciphertext_len = total_len - 12 - 16;
 
-    // get tag from the key
-    unsigned char tag[16];
-    std::memcpy(tag, uDataVect.data() + len - sizeof(tag), sizeof(tag));
-    
+    const unsigned char* encryptionKey = reinterpret_cast<const unsigned char*>(key_str.data());
+
+    std::vector<unsigned char> plaintext(ciphertext_len);
+
     EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
     if (!ctx)
         throw std::runtime_error("Failed to create EVP_CIPHER_CTX");
+    int len;
+    int plaintext_len = 0;
+    if(1 != EVP_DecryptInit_ex(ctx,  EVP_aes_256_gcm(), nullptr, encryptionKey, iv))
+        throw std::runtime_error("DecryptInit iv failed");
 
-    if (1 != EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr))
-        throw std::runtime_error("DecryptInit failed");
+    if (1 != EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr))
+        throw std::runtime_error("Failed to set IV length");
 
-    if(1 != EVP_DecryptInit_ex(ctx, nullptr, nullptr, key, iv))
-        throw std::runtime_error("DecryptInit key/iv failed");
-    unsigned char* decryptedData;
-    int outlen;
-    if(1 != EVP_DecryptUpdate(ctx, decryptedData, &outlen, uDataVect.data() + sizeof(iv), len - sizeof(iv) - sizeof(tag)))
-        throw std::runtime_error("DecryptUpdate failed");
-    if(1 != EVP_DecryptFinal_ex(ctx, decryptedData + outlen, &outlen))
-        throw std::runtime_error("DecryptFinal failed");
+
+    EVP_DecryptUpdate(ctx, plaintext.data(), &len, ciphertext, ciphertext_len);
+    plaintext_len = len;
+
+    EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (void*)tag);
+    int ret = EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &len);
 
     EVP_CIPHER_CTX_free(ctx);
-    std::string decryptedString(reinterpret_cast<char*>(decryptedData), outlen);
+    std::string decryptedString(reinterpret_cast<char*>(plaintext.data()), plaintext_len);
     return decryptedString;
 }
