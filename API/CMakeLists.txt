@@ -9,18 +9,24 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(Crow CONFIG REQUIRED)
 find_package(cpr CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 find_package(jwt-cpp CONFIG REQUIRED)
 find_package(libpqxx CONFIG REQUIRED)
 find_package(OpenSSL REQUIRED)
 
 add_executable(job-application-handler-api 
-    test.cpp
+    main.cpp
+    Controllers/AuthController.cpp
     Utils/encrypt.cpp
+    Utils/split_by_delimiter.cpp
+    Utils/safe_getenv.cpp
+    Utils/token_handler.cpp
 )
 
 target_link_libraries(job-application-handler-api PRIVATE
     Crow::Crow asio::asio
     cpr::cpr
+    nlohmann_json::nlohmann_json
     jwt-cpp::jwt-cpp
     libpqxx::pqxx
     OpenSSL::SSL

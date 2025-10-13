@@ -4,6 +4,7 @@
   "dependencies": [
     "crow",
     "cpr",
+    "nlohmann-json",
     "jwt-cpp",
     "libpqxx",
     "openssl"
