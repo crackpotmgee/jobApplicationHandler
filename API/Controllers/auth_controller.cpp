@@ -2,21 +2,21 @@
 #include <cpr/cpr.h>
 #include <jwt-cpp/jwt.h>
 #include <pqxx/pqxx>
-#include "AuthController.h"
+#include "auth_controller.h"
 #include "../Utils/safe_getenv.h"
-#include "../Utils/token_handler.h"
+#include "../Helpers/token_helper.h"
 #include <jwt-cpp/traits/nlohmann-json/traits.h>
 
 
 
-AuthController::AuthController(crow::SimpleApp& app, TokenHandler& tokenHandlerInstance)
+AuthController::AuthController(crow::SimpleApp& app, TokenHelper& tokenHelperInstance)
       : CLIENT_ID(safe_getenv("GOOGLE_CLIENT_ID")),
         CLIENT_SECRET(safe_getenv("GOOGLE_CLIENT_SECRET")),
         REDIRECT_URI(safe_getenv("GOOGLE_REDIRECT_URI")),
         GOOGLE_TOKEN_ENDPOINT_URI(safe_getenv("GOOGLE_TOKEN_ENDPOINT_URI")),
         GOOGLE_AUTH_ENDPOINT_URI(safe_getenv("GOOGLE_AUTH_ENDPOINT_URI")),
         GOOGLE_API_SCOPES(safe_getenv("GOOGLE_API_SCOPES")),
-        _tokenHandler(tokenHandlerInstance)
+        _tokenHelper(tokenHelperInstance)
   {
 
       CROW_ROUTE(app, "/auth/google/callback")
@@ -57,7 +57,7 @@ crow::response AuthController::google_callback(const crow::request& req){
   std::string email = decoded.get_payload_claim("email").as_string();
 
   
-  bool saved = _tokenHandler.store_token("google", 1, access_token, refresh_token);
+  bool saved = _tokenHelper.encrypt_and_store_token("google", 1, access_token, refresh_token);
 
   return crow::response(200, "success");
 }

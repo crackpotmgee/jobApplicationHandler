@@ -4,8 +4,6 @@ project(job-application-handler-api CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Add vcpkg toolchain if not integrated globally
-# set(CMAKE_TOOLCHAIN_FILE "/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake")
 
 find_package(Crow CONFIG REQUIRED)
 find_package(cpr CONFIG REQUIRED)
@@ -16,11 +14,18 @@ find_package(OpenSSL REQUIRED)
 
 add_executable(job-application-handler-api 
     main.cpp
-    Controllers/AuthController.cpp
-    Utils/encrypt.cpp
+    Controllers/auth_controller.cpp
+    Controllers/incoming_text_controller.cpp
+    Helpers/twilio_helper.cpp
+    Helpers/token_helper.cpp
+    Repos/token_repo.cpp
+    Repos/user_repo.cpp
+    Models/token.cpp
+    Models/user.cpp
     Utils/split_by_delimiter.cpp
     Utils/safe_getenv.cpp
-    Utils/token_handler.cpp
+    Utils/encrypt.cpp
+    Interfaces/i_message_helper.cpp
 )
 
 target_link_libraries(job-application-handler-api PRIVATE
