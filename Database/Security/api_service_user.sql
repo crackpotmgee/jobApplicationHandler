@@ -1,0 +1,1 @@
+grant SELECT, INSERT, UPDATE, DELETE ON token_cache to api_service;

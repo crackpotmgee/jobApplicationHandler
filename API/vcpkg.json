@@ -1,0 +1,12 @@
+{
+  "name": "job-application-handler-api",
+  "version": "0.1.0",
+  "dependencies": [
+    "crow",
+    "cpr",
+    "nlohmann-json",
+    "jwt-cpp",
+    "libpqxx",
+    "openssl"
+  ]
+}

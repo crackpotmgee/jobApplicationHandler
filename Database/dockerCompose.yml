@@ -1,0 +1,10 @@
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: testadmin
+      POSTGRES_PASSWORD: test12345
+      POSTGRES_DB: job-application-handler
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db_data:/var/lib/postgresql/data

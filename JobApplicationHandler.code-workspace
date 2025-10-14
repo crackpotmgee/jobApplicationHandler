@@ -1,0 +1,119 @@
+{
+	"folders": [
+		{
+			"path": "API"
+		},
+		{
+			"path": "Workers"
+		},
+		{
+			"path": "Database"
+		}
+	],
+	"settings": {
+	    	"github.copilot.enable": false,
+		"files.associations": {
+			"*.dbclient-js": "javascript",
+			"iostream": "cpp",
+			"string": "cpp",
+			"stdexcept": "cpp",
+			"any": "cpp",
+			"array": "cpp",
+			"atomic": "cpp",
+			"bit": "cpp",
+			"cassert": "cpp",
+			"cctype": "cpp",
+			"cerrno": "cpp",
+			"cfloat": "cpp",
+			"charconv": "cpp",
+			"chrono": "cpp",
+			"climits": "cpp",
+			"clocale": "cpp",
+			"cmath": "cpp",
+			"codecvt": "cpp",
+			"compare": "cpp",
+			"concepts": "cpp",
+			"condition_variable": "cpp",
+			"coroutine": "cpp",
+			"csignal": "cpp",
+			"cstdarg": "cpp",
+			"cstddef": "cpp",
+			"cstdint": "cpp",
+			"cstdio": "cpp",
+			"cstdlib": "cpp",
+			"cstring": "cpp",
+			"ctime": "cpp",
+			"cwchar": "cpp",
+			"cwctype": "cpp",
+			"deque": "cpp",
+			"list": "cpp",
+			"map": "cpp",
+			"set": "cpp",
+			"unordered_map": "cpp",
+			"unordered_set": "cpp",
+			"vector": "cpp",
+			"exception": "cpp",
+			"algorithm": "cpp",
+			"functional": "cpp",
+			"iterator": "cpp",
+			"memory": "cpp",
+			"memory_resource": "cpp",
+			"numeric": "cpp",
+			"optional": "cpp",
+			"random": "cpp",
+			"ratio": "cpp",
+			"source_location": "cpp",
+			"string_view": "cpp",
+			"system_error": "cpp",
+			"tuple": "cpp",
+			"type_traits": "cpp",
+			"utility": "cpp",
+			"format": "cpp",
+			"fstream": "cpp",
+			"future": "cpp",
+			"initializer_list": "cpp",
+			"iomanip": "cpp",
+			"iosfwd": "cpp",
+			"istream": "cpp",
+			"limits": "cpp",
+			"mutex": "cpp",
+			"new": "cpp",
+			"numbers": "cpp",
+			"ostream": "cpp",
+			"ranges": "cpp",
+			"semaphore": "cpp",
+			"span": "cpp",
+			"sstream": "cpp",
+			"stop_token": "cpp",
+			"streambuf": "cpp",
+			"text_encoding": "cpp",
+			"thread": "cpp",
+			"cinttypes": "cpp",
+			"typeinfo": "cpp",
+			"variant": "cpp",
+			"pqxx": "cpp",
+			"valarray": "cpp",
+			"forward_list": "cpp"
+		},
+		"secrets.enabledFolders": [
+			"JobApplicationHandler"
+		],
+		"vcpkg.target.useStaticLib": false,
+		"vcpkg.target.defaultTriplet": "",
+		"cmake.configureArgs": [
+			"-DVCPKG_TARGET_TRIPLET="
+		]
+	},
+	"launch": {
+		"configurations": [
+			{
+				"type": "cmake",
+				"request": "launch",
+				"name": "Debug portfile(s)",
+				"cmakeDebugType": "external",
+				"pipeName": "/tmp/vcpkg_ext_portfile_dbg",
+				"preLaunchTask": "Debug vcpkg commands"
+			}
+		]
+	}
+}
