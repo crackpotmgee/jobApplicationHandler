@@ -22,6 +22,7 @@ add_executable(job-application-handler-api
     Repos/user_repo.cpp
     Models/token.cpp
     Models/user.cpp
+    Models/message.cpp
     Utils/split_by_delimiter.cpp
     Utils/safe_getenv.cpp
     Utils/encrypt.cpp

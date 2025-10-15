@@ -16,7 +16,7 @@ bool TokenHelper::encrypt_and_store_token(const std::string service_name, int us
     std::string encrypted_access_token = encrypt_string(access_token);
     std::string encrypted_refresh_token = encrypt_string(refresh_token);
 
-    Token encyptedToken(service_name, user_id, encrypted_access_token, encrypted_refresh_token, std::chrono::time_point<std::chrono::steady_clock>::min(), std::chrono::time_point<std::chrono::steady_clock>::min(), std::chrono::time_point<std::chrono::steady_clock>::min());
+    Token encyptedToken(service_name, user_id, encrypted_access_token, encrypted_refresh_token, std::chrono::time_point<std::chrono::system_clock>::min(), std::chrono::time_point<std::chrono::system_clock>::min(), std::chrono::time_point<std::chrono::system_clock>::min());
     
     return _tokenRepo.store_token(encyptedToken);
 }
