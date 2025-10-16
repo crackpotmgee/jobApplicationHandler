@@ -43,9 +43,9 @@ Token TokenRepo::get_token_for_user(const std::string service_name, int user_id)
         result.user_id = first["user_id"].as<int>();
         result.access_token= first["access_token"].as<std::string>();
         result.refresh_token= first["refresh_token"].as<std::string>();
-        //result.created_at = first["created_at"].as<std::chrono::time_point<std::chrono::steady_clock>>();
-        //result.expires_at = first["expires_at"].as<std::chrono::time_point<std::chrono::steady_clock>>();
-        //result.updated_at = first["updated_at"].as<std::chrono::time_point<std::chrono::steady_clock>>();
+        //result.created_at = first["created_at"].as<std::chrono::time_point<std::chrono::system_clock>>();
+        //result.expires_at = first["expires_at"].as<std::chrono::time_point<std::chrono::system_clock>>();
+        //result.updated_at = first["updated_at"].as<std::chrono::time_point<std::chrono::system_clock>>();
         
         return result;
     }
