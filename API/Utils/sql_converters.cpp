@@ -1,4 +1,3 @@
-#pragma once
 #include "sql_converters.h"
 #include <string>
 #include <chrono>

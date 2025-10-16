@@ -1,4 +1,4 @@
-CREATE TABLE users (
+CREATE TABLE platform_user (
   id SERIAL PRIMARY KEY,
   google_sub VARCHAR(500) UNIQUE NOT NULL, 
   email VARCHAR(255) UNIQUE,

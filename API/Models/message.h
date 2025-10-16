@@ -9,8 +9,9 @@ public:
     std::string sender;
     std::string recipient;
     std::string content;
+    unsigned int direction;
     std::chrono::time_point<std::chrono::system_clock> timestamp;
 
     Message();
-    Message(int id, std::string service_name, std::string service_message_id, std::string sndr, std::string rcpt, std::string cntnt, std::chrono::time_point<std::chrono::system_clock> time);
+    Message(int id, std::string service_name, std::string service_message_id, std::string sndr, std::string rcpt, std::string cntnt, int drct, std::chrono::time_point<std::chrono::system_clock> time);
 };

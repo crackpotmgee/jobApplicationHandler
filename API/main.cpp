@@ -14,11 +14,13 @@ int main()
     // Setup the token cache
     TokenRepo token_repo(getenv("DATABASE_CONNECTION_STRING")); 
     TokenHelper token_helper(token_repo);
+    // Setup message repo
+    MessageRepo message_repo(getenv("DATABASE_CONNECTION_STRING"));
 
     // Setup all controllers
     AuthController auth_controller(app, token_helper);
     IncomingTextController incoming_text_controller(app);
-    incoming_text_controller.registerHandler("twilio", std::make_shared<TwilioHelper>(getenv("TWILIO_AUTH_TOKEN"), getenv("TWILIO_API_KEY")));
+    incoming_text_controller.registerHandler("twilio", std::make_shared<TwilioHelper>(getenv("TWILIO_AUTH_TOKEN"), getenv("TWILIO_API_KEY"),message_repo));
 
     // run the app
     app.multithreaded().run();

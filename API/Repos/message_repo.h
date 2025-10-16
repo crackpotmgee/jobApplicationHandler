@@ -1,4 +1,4 @@
-#pragma one
+#pragma once
 #include <string>
 #include "../Models/message.h"
 #include <vector>
