@@ -1,0 +1,8 @@
+services:
+  api:
+    container_name: job-application-handler-api
+    image: job-application-handler
+    ports:
+      - "8085:8080"
+    env_file:
+      - .env.local

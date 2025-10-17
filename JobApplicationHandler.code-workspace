@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "Database"
+		},
+		{
+			"path": "DockerCompose"
 		}
 	],
 	"settings": {
