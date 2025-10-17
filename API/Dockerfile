@@ -10,6 +10,11 @@ RUN apt-get update && \
     cmake \
     git \
     ninja-build \
+    autoconf \
+    bison\
+    flex\
+    zip \
+    tar\
     unzip \
     curl \
     pkg-config \
@@ -20,7 +25,8 @@ RUN apt-get update && \
 # Clone vcpkg and bootstrap it.
 WORKDIR /vcpkg
 RUN git clone https://github.com/microsoft/vcpkg.git . && \
-    ./bootstrap-vcpkg.sh -disableMetrics
+    ./bootstrap-vcpkg.sh -disableMetrics && \
+    ./vcpkg integrate install
 
 # Set the working directory for your project
 WORKDIR /app
@@ -30,18 +36,25 @@ WORKDIR /app
 # if only source files change.
 COPY . /app
 
+# Clean the build folder
+
+RUN rm -rf /app/build*
+
 # 4. Install dependencies via vcpkg
 # vcpkg uses the manifest file (vcpkg.json) to install dependencies.
 # We also use the vcpkg toolchain file with CMake for integration.
-RUN /vcpkg/vcpkg install --manifest-path vcpkg.json
+RUN /vcpkg/vcpkg install
 
 # 5. Configure and Build the Project
 # Create a build directory, run CMake, and then build the project.
 RUN cmake -B build \
     -S . \
     -DCMAKE_TOOLCHAIN_FILE=/vcpkg/scripts/buildsystems/vcpkg.cmake \
-    -DCMAKE_BUILD_TYPE=Release && \
-    cmake --build build --target install
+    -DCMAKE_BUILD_TYPE=Release \
+    && cmake --build build --config Release 
+
+# debug only
+RUN echo "📁 Contents of /app/build (if any):" && ls -la /app/build || echo "⚠️  Directory not found"
 
 # Stage 2: The Runtime Environment (Minimal Image)
 # Use a minimal base image, only including the essential runtime libraries.
@@ -61,7 +74,7 @@ EXPOSE 8080
 # Set the working directory for the executable
 WORKDIR /usr/local/bin
 
-COPY --from=builder /usr/local/bin/job-application-handler-api /usr/local/bin/
+COPY --from=builder /app/build/job-application-handler-api /usr/local/bin/
 
 # Copy any necessary shared libraries that vcpkg might have installed for runtime.
 # This assumes the vcpkg "installed" directory for the target triplet is used.
